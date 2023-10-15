@@ -11,7 +11,10 @@ namespace FizzBuzzSpecification
         private static IServiceProvider serviceProvider;
         private static void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IPrintable, PrintService>();
+            services.AddSingleton<IPrintable, PrintService>(i =>
+            {
+                return new PrintService("-");
+            });
         }
         static void Main(string[] args)
         {
