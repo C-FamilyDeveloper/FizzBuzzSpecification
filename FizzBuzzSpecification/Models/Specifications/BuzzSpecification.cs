@@ -5,7 +5,7 @@ namespace FizzBuzzSpecification.Models.Specifications
     public class BuzzSpecification : SpecificationHandler<int>
     {
         private readonly IPrintable printer;
-
+        private string printMessage = "Buzz";
         public BuzzSpecification(IPrintable printer)
         {
             this.printer = printer;
@@ -14,7 +14,7 @@ namespace FizzBuzzSpecification.Models.Specifications
         {
             if (IsSatisfiedBy(@object))
             {
-                printer.AddToPrint("Buzz");
+                printer.AddToPrint(printMessage);
             }
             if (Specification != null)
             {
