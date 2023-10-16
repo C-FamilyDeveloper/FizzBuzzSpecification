@@ -1,9 +1,11 @@
 ﻿namespace FizzBuzzSpecification.Models.Abstractions
 {
-    public abstract class SpecificationHandler<T> : ISpecification<T>
+    public abstract class SpecificationHandler<T>
     {
-        public SpecificationHandler<T> Specification { get; set; }
-        public abstract void ExecuteAction(T @object);
-        public abstract bool IsSatisfiedBy(T @object);
+        public ISpecification<T> Specification { get; set; }
+        public string MessageToSwitch { get; set; }
+        public SpecificationHandler<T> Handler { get; set; }
+        public abstract void ExecuteAction(T value);
+
     }
 }

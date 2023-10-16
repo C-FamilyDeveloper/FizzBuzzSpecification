@@ -27,7 +27,7 @@ namespace FizzBuzzSpecification.Models.Services
 
         public void Print()
         {
-            Console.WriteLine(string.Join(separator,strings));
+            Console.WriteLine(string.Join(separator, strings));
         }
     }
 }
