@@ -2,7 +2,7 @@
 
 namespace FizzBuzzSpecification.Models.Specifications.CompositeSpecifications
 {
-    public class NotSpecification<T> : CompositeSpecification<T>
+    public class NotSpecification<T> : ISpecification<T>
     {
         private ISpecification<T> specification;
         public NotSpecification(ISpecification<T> specification)
@@ -10,7 +10,7 @@ namespace FizzBuzzSpecification.Models.Specifications.CompositeSpecifications
             this.specification = specification;
         }
 
-        public override bool IsSatisfiedBy(T @object)
+        public bool IsSatisfiedBy(T @object)
         {
             return !specification.IsSatisfiedBy(@object);
         }

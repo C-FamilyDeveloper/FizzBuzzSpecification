@@ -2,7 +2,7 @@
 
 namespace FizzBuzzSpecification.Models.Specifications.CompositeSpecifications
 {
-    public class OrSpecification<T> : CompositeSpecification<T>
+    public class OrSpecification<T> : ISpecification<T>
     {
         private readonly ISpecification<T> left;
         private readonly ISpecification<T> right;
@@ -13,7 +13,7 @@ namespace FizzBuzzSpecification.Models.Specifications.CompositeSpecifications
             this.right = right;
         }
 
-        public override bool IsSatisfiedBy(T @object)
+        public bool IsSatisfiedBy(T @object)
         {
             return left.IsSatisfiedBy(@object) || right.IsSatisfiedBy(@object);
         }
