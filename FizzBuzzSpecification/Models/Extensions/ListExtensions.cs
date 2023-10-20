@@ -4,11 +4,11 @@ namespace FizzBuzzSpecification.Models.Extensions
 {
     public static class ListExtensions
     {
-        public static void PrintWithSpecifications<T>(this List<T> source, SpecificationHandler<T> specificationHandler)
+        public static IEnumerable<string> ReplaceWithSpecifications(this List<int> source, SpecificationHandler<int> specificationHandler)
         {
-            foreach (var element in source)
+            for (int i = 0; i <source.Count; i++)
             {
-                specificationHandler.ExecuteAction(element);
+                yield return specificationHandler.ExecuteAction(source[i]);
             }
         }
     }

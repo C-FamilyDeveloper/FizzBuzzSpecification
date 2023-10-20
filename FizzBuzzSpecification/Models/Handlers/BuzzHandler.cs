@@ -4,30 +4,31 @@ namespace FizzBuzzSpecification.Models.Handlers
 {
     public class BuzzHandler : SpecificationHandler<int>
     {
-        private readonly IPrintable printer;
-        public BuzzHandler(IPrintable printer)
+        private readonly ISwitchable printer;
+        public BuzzHandler(ISwitchable printer)
         {
             this.printer = printer;
             MessageToSwitch = "Buzz";
         }
-        public override void ExecuteAction(int @object)
+        public override string ExecuteAction(int @object)
         {
             if (Specification.IsSatisfiedBy(@object))
             {
-                printer.AddToPrint(MessageToSwitch);
+                printer.AddToSwitch(MessageToSwitch);
             }
             if (Handler != null)
             {
-                Handler.ExecuteAction(@object);
+                return Handler.ExecuteAction(@object);
             }
             else
             {
-                if (printer.IsPrintEmpty())
+                if (printer.IsSwitchEmpty())
                 {
-                    printer.AddToPrint(@object);
+                    printer.AddToSwitch(@object);
                 }
-                printer.Print();
-                printer.ClearPrint();
+                string print =  printer.GetMessage();
+                printer.ClearSwitch();
+                return print;
             }
         }
     }

@@ -2,32 +2,32 @@
 
 namespace FizzBuzzSpecification.Models.Services
 {
-    public class PrintService : IPrintable
+    public class SwitchService : ISwitchable
     {
         private string separator;
         private List<string> strings = new();
-        public PrintService(string separator)
+        public SwitchService(string separator)
         {
             this.separator = separator;
         }
-        public void AddToPrint<T>(T value)
+        public void AddToSwitch<T>(T value)
         {
             strings.Add(value!.ToString());
         }
 
-        public void ClearPrint()
+        public void ClearSwitch()
         {
             strings.Clear();
         }
 
-        public bool IsPrintEmpty()
+        public bool IsSwitchEmpty()
         {
             return !strings.Any();
         }
 
-        public void Print()
+        public string GetMessage()
         {
-            Console.WriteLine(string.Join(separator, strings));
+            return string.Join(separator, strings);
         }
     }
 }

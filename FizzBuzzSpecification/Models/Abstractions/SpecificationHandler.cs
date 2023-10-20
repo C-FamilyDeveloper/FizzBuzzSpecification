@@ -5,7 +5,7 @@
         public ISpecification<T> Specification { get; set; }
         public string MessageToSwitch { get; set; }
         public SpecificationHandler<T> Handler { get; set; }
-        public abstract void ExecuteAction(T value);
+        public abstract string ExecuteAction(T value);
 
     }
 }

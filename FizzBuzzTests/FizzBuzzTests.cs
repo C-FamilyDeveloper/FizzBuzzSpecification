@@ -1,34 +1,39 @@
-﻿using FizzBuzzSpecification.Models.Abstractions;
-using FizzBuzzSpecification.Models.Extensions;
 using FizzBuzzSpecification.Models.Handlers;
 using FizzBuzzSpecification.Models.Services;
 using FizzBuzzSpecification.Models.Specifications;
+using FizzBuzzSpecification.Models.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using FizzBuzzSpecification.Models.Abstractions;
 
-namespace FizzBuzzSpecification
+namespace FizzBuzzTests
 {
-    internal class Program
+    public class Tests
     {
-        private static IServiceProvider serviceProvider;
-        private static void ConfigureServices(IServiceCollection services)
+        private IServiceProvider serviceProvider;
+        private GoodBoyHandler gbHandler;
+        private void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<ISwitchable, SwitchService>(i =>
             {
                 return new SwitchService("-");
             });
         }
-        static void Main(string[] args)
+        public Tests()
         {
             ServiceCollection services = new();
             ConfigureServices(services);
             serviceProvider = services.BuildServiceProvider();
-            var list = new ListMockService().Mock(1, 30);
+        }
+        [SetUp]
+        public void Setup()
+        {
             var gbSpecification = new FizzSpecification().And(new BuzzSpecification());
             var fizzSpecification = new FizzSpecification().And(gbSpecification.Not());
             var buzzSpecification = new BuzzSpecification().And(gbSpecification.Not());
             var muzzSpecification = new MuzzSpecification();
             var guzzSpecification = new GuzzSpecification();
             var gbHandler = ActivatorUtilities.CreateInstance<GoodBoyHandler>(serviceProvider);
+            this.gbHandler = gbHandler;
             gbHandler.Specification = gbSpecification;
             var fizzHandler = ActivatorUtilities.CreateInstance<FizzHandler>(serviceProvider);
             fizzHandler.Specification = fizzSpecification;
@@ -42,8 +47,25 @@ namespace FizzBuzzSpecification
             fizzHandler.Handler = buzzHandler;
             buzzHandler.Handler = muzzHandler;
             muzzHandler.Handler = guzzHandler;
-            List<string> replacedList = list.ReplaceWithSpecifications(gbHandler).ToList();
-            replacedList.ForEach(Console.WriteLine);
+        }
+        [TestCase(3)]
+        [Test]
+        public void TestIsFizzAsserted(int number)
+        {
+            Assert.That(number.ReplaceWithSpecifications(gbHandler), Is.EqualTo("Fizz"));
+        }
+        [TestCase(5)]
+        [Test]
+        public void TestIsBuzzAsserted(int number)
+        {
+            Assert.That(number.ReplaceWithSpecifications(gbHandler), Is.EqualTo("Buzz"));
+        }
+        [TestCase(15)]
+        [TestCase(30)]
+        [Test]
+        public void TestIsGoodBoyAsserted(int number)
+        {
+            Assert.That(number.ReplaceWithSpecifications(gbHandler), Is.EqualTo("Good-Boy"));
         }
     }
 }
